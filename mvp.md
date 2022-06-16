@@ -27,5 +27,5 @@ Future Features:
 
 - Users can get additional resources or potential causes to symptoms via external API
 
-- User can discover potential patterns/triggers by use of python AI / Machine learning
+- User can discover potential patterns/triggers of their symptoms by use of python AI / Machine learning
 

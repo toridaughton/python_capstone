@@ -19,7 +19,7 @@ Future Features:
 
 - Users can search for past entries by date or keywords
 
-- Users can make a post to a forum and connect to others with simmilar symptoms
+- Users can make a post to a forum and connect to others with simmilar symptoms / health conditions
 
 - Users can join groups connected to various health conditions
 

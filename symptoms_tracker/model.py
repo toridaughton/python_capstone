@@ -1,21 +1,37 @@
-import datetime
+from datetime import datetime
 from os import environ
-from xmlrpc.client import DateTime
 from flask_sqlalchemy import SQLAlchemy
-
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin, LoginManager
 
 db = SQLAlchemy()
 
-class User(db.Model):
+login_manager = LoginManager()
+
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+
+class User(db.Model, UserMixin):
+    
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String(25), nullable=False)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     dob = db.Column(db.DateTime)
-    user_email = db.Column(db.String(50), nullable=False)
-    user_password = db.Column(db.String(50), nullable=False)
+    user_email = db.Column(db.String(50), unique=True, nullable=False)
+    username = db.Column(db.String(64), unique=True, nullable=False)
+    hash_password = db.Column(db.String(500), nullable=False)
+
+    def __init__(self, email, username, password):
+        self.user_email
+        self.username
+        self.hash_password = generate_password_hash(password)
+    
+    def check_password(self, password):
+        return check_password_hash(self.hash_password, password)
 
     def __repr__(self):
         return f'User: user_id = {self.user_id}, username = {self.username}'
@@ -27,7 +43,7 @@ class Entry(db.Model):
     entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     entry_details = db.Column(db.String(500), nullable=False)
-    entry_date_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    entry_date_time = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return f'Entry on {self.entry_date_time} for diagnosis: {self.diagnosis_name}, symptom: {self.symptom_name} with category: {self.category_name}'

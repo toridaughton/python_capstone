@@ -1,5 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-{% endblock %}
+    <div>
+        {% if current_user.is_authenticated %}
+            <h3>Hi, {{ current_user.username }}!</h3>
+            <p>Where to?</p>
+            <a href="{{ url_for('entry') }}" class="new-entry">
+                <button type="button" class="btn btn-info new-entry">Create Entry</button>
+            </a>
+            
+            <a href="{{ url_for('past_entries')}}" class="past-entry">
+                <button type="button" class="btn btn-secondary past-entries">Past Entries</button>
+            </a>
+        {% else %}
+            <aside class="info">
+                <h2>Symptoms Tracker</h2>
+                <h3>Keep your symptoms organized</h3>
+                <h4>Log in to get started!</h4>
+            </aside>
+            <img src="/static/images/note-taking-image-home.jpg" alt="note-taking-img" width="615" height="792"/> 
+        {% endif %}
+    </div>
+    {% endblock %}

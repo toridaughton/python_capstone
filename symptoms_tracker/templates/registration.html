@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.first_name.label }}{{ form.first_name(placeholder='First Name') }}
+        {{ form.last_name.label }}{{ form.last_name(placeholder='Last Name') }}<br>
+        {{ form.dob.label }}{{ form.dob(placeholder='Birthdate') }}<br>
+        {{ form.email.label }}{{ form.email(placeholder='Email') }}<br>
+        {{ form.username.label }}{{ form.username(placeholder='Username') }}<br>
+        {{ form.password.label}}{{ form.password(placeholder='Password') }}<br>
+        {{ form.confirm_pass.label }}{{ form.confirm_pass(placeholder='Confirm Password')}}<br>
+        {{ form.submit() }}
+    </form>
 
 {% endblock %}

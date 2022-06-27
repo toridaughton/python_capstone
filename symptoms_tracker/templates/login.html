@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.email(placeholder='email') }}
+        {{ form.password(placeholder='password')}}
+        {{ form.submit() }}
+    </form>
+
 
 {% endblock %}

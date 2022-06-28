@@ -33,27 +33,27 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.hash_password, password)
 
     def __repr__(self):
-        return f'User: user_id = {self.id}, username = {self.username}'
+        return f'<User: user_id = {self.id}>, <Username = {self.username}>'
 
 
-entry_symptoms = db.Table(
-    "entry_symptoms", db.metadata,
-    db.Column('entry_id', db.Integer, db.ForeignKey('entries.id')),
-    db.Column('symptom_id', db.Integer, db.ForeignKey('symptoms.id'))
-)
+# entry_symptoms = db.Table(
+#     "entry_symptoms", db.metadata,
+#     db.Column('entry_id', db.Integer, db.ForeignKey('entries.id')),
+#     db.Column('symptom_id', db.Integer, db.ForeignKey('symptoms.id'))
+# )
 
 
-entry_categories = db.Table(
-    "entry_categories", db.metadata,
-    db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
-    db.Column('category_id', db.Integer, db.ForeignKey("categories.id"))
-)
+# entry_categories = db.Table(
+#     "entry_categories", db.metadata,
+#     db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
+#     db.Column('category_id', db.Integer, db.ForeignKey("categories.id"))
+# )
 
-entry_diagnoses = db.Table(
-    "entry_diagnoses", db.metadata,
-    db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
-    db.Column('diagnosis_id', db.Integer, db.ForeignKey("diagnoses.id"))
-)
+# entry_diagnoses = db.Table(
+#     "entry_diagnoses", db.metadata,
+#     db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
+#     db.Column('diagnosis_id', db.Integer, db.ForeignKey("diagnoses.id"))
+# )
 
 
 class Entry(db.Model):
@@ -62,12 +62,12 @@ class Entry(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     entry_details = db.Column(db.String(500), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    symptoms = db.relationship("Symptoms", secondary=entry_symptoms,
-                                backref="entry")
-    categories = db.relationship("Categories",secondary=entry_categories,
-                                  backref="entry")
-    diagnoses = db.relationship("Diagnosis", secondary=entry_diagnoses,
-                                 backref="entry")
+    # symptoms = db.relationship("Symptoms", secondary=entry_symptoms,
+    #                             backref="entry")
+    # categories = db.relationship("Categories",secondary=entry_categories,
+    #                               backref="entry")
+    # diagnoses = db.relationship("Diagnosis", secondary=entry_diagnoses,
+    #                             backref=db.backref("entry")
     entry_date_time = db.Column(db.DateTime, default=datetime.now)
 
     def __init__(self, entry_details, user_id):
@@ -75,7 +75,7 @@ class Entry(db.Model):
         self.user_id = user_id
 
     def __repr__(self):
-        return f'Entry on {self.entry_date_time} for diagnosis: {self.diagnosis_name}, symptom: {self.symptom_name} with category: {self.category_name}'
+        return f'<Entry on {self.entry_date_time} for diagnosis: {self.diagnosis_name}, symptom: {self.symptom_name} with category: {self.category_name}>'
 
 
 class Symptoms(db.Model):
@@ -83,15 +83,26 @@ class Symptoms(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     symptom_name = db.Column(db.String(80))
-    entries = db.relationship('Entry', secondary="entry_symptoms",  lazy='subquery',
-        backref=db.backref('entries_symptoms', lazy=True))
+    # entries = db.relationship('Entry', secondary="entry_symptoms",  lazy='subquery',
+    #     backref=db.backref('entries_symptoms', lazy=True))
 
 
     def __init__(self, symptom_name):
         self.symptom_name = symptom_name
 
     def __repr__(self):
-        return f'Symptom: {self.symptom_name}'
+        return f'<Symptom: {self.symptom_name}>'
+
+
+class EntrySymptoms(db.Model):
+    __tablename__ = "entry_symptoms"
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    entry_id = db.Column(db.Integer, db.ForeignKey('entries.id'))
+    symptom_id = db.Column(db.Integer, db.ForeignKey('symptoms.id'))
+
+    def __repr__(self):
+        return f'<Entry ID: {self.entry_id}>, <Symptom ID: {self.symptom_id}>'
 
 
 class Categories(db.Model):
@@ -99,14 +110,25 @@ class Categories(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category_name = db.Column(db.String(80))
-    entries = db.relationship('Entry', secondary="entry_categories",  lazy='subquery',
-        backref=db.backref('entries_categories', lazy=True))
+    # entries = db.relationship('Entry', secondary="entry_categories",  lazy='subquery',
+    #     backref=db.backref('entries_categories', lazy=True))
 
     def __init__(self, category_name):
         self.category_name = category_name
 
     def __repr__(self):
-        return f'Category: {self.category_name}'
+        return f'<Category: {self.category_name}>'
+
+
+class EntryCategories(db.Model):
+    __tablename__ = "entry_categories"
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    entry_id = db.Column(db.Integer, db.ForeignKey('entries.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+
+    def __repr__(self):
+        return f'<Entry ID: {self.entry_id}>, <Category ID: {self.category_id}>'
 
 
 class Diagnosis(db.Model):
@@ -121,9 +143,34 @@ class Diagnosis(db.Model):
         self.diagnosis_name = diagnosis_name
     
     def __repr__(self):
-        return f'Diagnosis: {self.diagnosis_name}'
+        return f'<Diagnosis: {self.diagnosis_name}>'
 
 
+class EntryDiagnoses(db.Model):
+    __tablename__ = "entry_diagnoses"
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    entry_id = db.Column(db.Integer, db.ForeignKey('entries.id'))
+    diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnoses.id'))
+
+    def __repr__(self):
+        return f'<Entry ID: {self.entry_id}>, <Diagnosis ID: {self.diagnosis_id}>'
+
+def baseline_select_options():
+    baseline_diagnoses = ["Cancer", "Celiac Disease", "Cohn's Disease", "Diabetes", "Diverticulitis", "Endometriosis", "Epilepsy", "Fibromyalgia", "Flu", "Irritable bowel syndrome (IBS)", "Kidney Stones", "Unknown"]
+    baseline_symptoms = ["Congestion","Headache", "Lethargic", "Nausea", "Numbness", "Other", "Pain","Vertigo" ]
+    baseline_categories = ["Cardiology (heart)", "Dermatology (skin)", "Endocrinology (hormone-related)", "ENT (ears, nose, throat)", "Gastroenterology (GI / Abdomen)", "Opthamology (eyes)", "Oncology (cancer)", "Other", "Unknown", "Urology (urinary)"]
+    
+    for diagnosis in baseline_diagnoses:
+        db.session.add(Diagnosis(diagnosis_name=diagnosis))
+
+    for symptom in baseline_symptoms:
+        db.session.add(Symptoms(symptom_name=symptom))
+
+    for category in baseline_categories:
+        db.session.add(Categories(category_name=category))
+
+    db.session.commit()
 
 
 def connect_to_database(app):

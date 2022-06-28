@@ -2,7 +2,7 @@ from os import environ
 from forms import RegisterForm, LoginForm, EntryForm, DiagnosisForm
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from model import User, entry_symptoms, entry_categories, entry_diagnoses, Entry, Symptoms, Categories, Diagnosis
+from model import User, EntrySymptoms, EntryCategories, EntryDiagnoses, Entry, Symptoms, Categories, Diagnosis
 from model import connect_to_database, db
 from flask_migrate import Migrate
 
@@ -42,7 +42,7 @@ def registration():
     form = RegisterForm()
     if form.validate_on_submit():
 
-        # because we have the __init__ for the users table we do not need **kwargs (keyword arguments, don't need to make anything equal)
+        # Because we have the __init__ for the users table we do not need **kwargs (keyword arguments, don't need to make anything equal)
         user = User(form.first_name.data,
                     form.last_name.data,
                     form.dob.data,
@@ -92,20 +92,29 @@ def entry():
     diagnosis_form = DiagnosisForm()
     diagnosis_answer = diagnosis_form.associated_diagnosis.data
     form = EntryForm()
+    form.update_choices()
 
     if form.submit2.data:
-        symptom = Symptoms(form.symptom.data)
-        diagnosis = Diagnosis(form.diagnosis.data)
-        category = Categories(form.category.data)
+        # symptom = Symptoms(form.symptom.data)
+        # diagnosis = Diagnosis(form.diagnosis.data)
+        # category = Categories(form.category.data)
         entry = Entry(form.entry_details.data, user.id)
 
-        db.session.add_all([entry, diagnosis, symptom, category])
+        db.session.add(entry)
         db.session.commit()
 
-        entry.symptoms.append(symptom)
-        entry.diagnoses.append(diagnosis)
-        entry.categories.append(category)
+
+        entry_diagnosis = EntryDiagnoses(entry_id=entry.id, diagnosis_id=form.diagnosis.data)
+        entry_symptoms = EntrySymptoms(entry_id=entry.id, symptom_id=form.symptom.data)
+        entry_categories = EntryCategories(entry_id = entry.id, category_id=form.category.data)
+
+        db.session.add_all([entry_diagnosis, entry_symptoms, entry_categories])
         db.session.commit()
+
+        # entry.symptoms.append(symptom)
+        # entry.diagnoses.append(diagnosis)
+        # entry.categories.append(category)
+        # db.session.commit()
 
         flash('Entry has been submitted', 'success')
         return redirect('/past-entries')
@@ -116,7 +125,22 @@ def entry():
 @app.route('/past-entries', methods=["GET", "POST"])
 @login_required
 def past_entries():
-    return render_template('past_entries_log.html', title='Past Entries')
+    if current_user.is_authenticated:
+        entries = Entry.query.filter_by(user_id=current_user.id).all()
+        if entries:
+            for entry in entries:
+                entry_diagnosis = EntryDiagnoses.query.filter_by(entry_id=entry.id).first()
+                entry_symptom = EntrySymptoms.query.filter_by(entry_id=entry.id).first()
+                entry_category = EntryCategories.query.filter_by(entry_id=entry.id).first()
+
+                entry.diagnosis = Diagnosis.query.filter_by(id=entry_diagnosis.diagnosis_id).first()
+                entry.symptom = Symptoms.query.filter_by(id=entry_symptom.symptom_id).first()
+                entry.category = Categories.query.filter_by(id=entry_category.category_id).first()
+        else:
+            flash("You don't have any entries!", "danger")
+            return redirect('/new-entry')
+
+        return render_template('past_entries_log.html', title='Past Entries', entries=entries)
 
 
 @app.route('/logout')

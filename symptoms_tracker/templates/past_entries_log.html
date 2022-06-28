@@ -1,5 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>***Page under construction***</h3>
+<div>
+    <tr>
+        <br>
+        {% for entry in entries %}
+            <td>
+                {{ entry.entry_date_time }}
+            </td>
+            <br>
+            <td>
+                {{ entry.diagnosis.diagnosis_name }}
+            </td>
+            <td> 
+                {{ entry.entry_details }}
+            </td>
+            <br>
+            <td>
+                {{ entry.symptom.symptom_name }}
+            </td>
+            <br>
+            <td>
+                {{ entry.category.category_name }}
+            </td>
+        {% endfor %} 
+        <br>
+</div>
 {% endblock %}

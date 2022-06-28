@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, DateField, RadioField, SubmitField, TextAreaField, SelectField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo, optional, length
-from model import User
+from model import User, Diagnosis, Symptoms, Categories
 
 # inherit from FlaskForm with newly created form class 
 class RegisterForm(FlaskForm):
@@ -34,10 +34,16 @@ class DiagnosisForm(FlaskForm):
     submit1 = SubmitField('Submit')
 
 class EntryForm(FlaskForm):
-    diagnosis = SelectField('Diagnosis', validators=[DataRequired()], choices=["Cancer", "Celiac Disease", "Cohn's Disease", "Diabetes", "Diverticulitis", "Endometriosis", "Epilepsy", "Fibromyalgia", "Flu", "Irritable bowel syndrome (IBS)", "Kidney Stones", "Unknown"])
+    diagnosis = SelectField('Diagnosis', validators=[DataRequired()])
     other_diagnosis = StringField('Other Diagnosis', validators=[optional()])
-    symptom = SelectField('Symptom', validators=[DataRequired()], choices=["Congestion","Headache", "Lethargic", "Nausea", "Numbness", "Other", "Pain","Vertigo" ])
+    symptom = SelectField('Symptom', validators=[DataRequired()])
     entry_details = TextAreaField('Details', validators=[DataRequired()])  
-    category = SelectField('What specialty is this related to?', validators=[DataRequired()], choices=["Cardiology (heart)", "Dermatology (skin)", "Endocrinology (hormone-related)", "ENT (ears, nose, throat)", "Gastroenterology (GI / Abdomen)", "Opthamology (eyes)", "Oncology (cancer)", "Other", "Unknown", "Urology (urinary)"])
+    category = SelectField('What specialty is this related to?', validators=[DataRequired()])
     other_category = StringField('Other Category', validators=[optional()])
-    submit2 = SubmitField('Submit')    
+    submit2 = SubmitField('Submit')
+
+    def update_choices(self):
+        self.diagnosis.choices = [(d.id, d.diagnosis_name) for d in Diagnosis.query.all()]
+        self.symptom.choices = [(s.id, s.symptom_name) for s in Symptoms.query.all()]
+        self.category.choices = [(c.id, c.category_name) for c in Categories.query.all()]
+

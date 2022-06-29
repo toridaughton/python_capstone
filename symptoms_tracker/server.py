@@ -1,5 +1,5 @@
 from os import environ
-from forms import RegisterForm, LoginForm, EntryForm, DiagnosisForm
+from forms import RegisterForm, LoginForm, EntryForm, DiagnosisForm, EditEntryForm, DeleteEntryForm
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from model import User, EntrySymptoms, EntryCategories, EntryDiagnoses, Entry, Symptoms, Categories, Diagnosis
@@ -79,6 +79,7 @@ def login():
             return redirect(next)
     return render_template('login.html', form=form, title='Login')
 
+
 @app.route('/new-entry', methods=["GET", "POST"])
 @login_required
 def entry():
@@ -95,9 +96,7 @@ def entry():
     form.update_choices()
 
     if form.submit2.data:
-        # symptom = Symptoms(form.symptom.data)
-        # diagnosis = Diagnosis(form.diagnosis.data)
-        # category = Categories(form.category.data)
+
         entry = Entry(form.entry_details.data, user.id)
 
         db.session.add(entry)
@@ -125,22 +124,62 @@ def entry():
 @app.route('/past-entries', methods=["GET", "POST"])
 @login_required
 def past_entries():
-    if current_user.is_authenticated:
-        entries = Entry.query.filter_by(user_id=current_user.id).all()
-        if entries:
-            for entry in entries:
-                entry_diagnosis = EntryDiagnoses.query.filter_by(entry_id=entry.id).first()
-                entry_symptom = EntrySymptoms.query.filter_by(entry_id=entry.id).first()
-                entry_category = EntryCategories.query.filter_by(entry_id=entry.id).first()
+    form = EntryForm()
+    form.update_choices()
+    entries = Entry.query.filter_by(user_id=current_user.id).all()
+    if entries: # If an entry exists:
+        for entry in entries:
+            entry.diagnosis = entry.get_diagnosis_id(entry.id)
+            entry.symptom = entry.get_symptom_id(entry.id)
+            entry.category = entry.get_category_id(entry.id)
+    
+    else: # If no entries exist
+        flash("You don't have any entries!", "danger")
+        return redirect('/new-entry')
+        
 
-                entry.diagnosis = Diagnosis.query.filter_by(id=entry_diagnosis.diagnosis_id).first()
-                entry.symptom = Symptoms.query.filter_by(id=entry_symptom.symptom_id).first()
-                entry.category = Categories.query.filter_by(id=entry_category.category_id).first()
-        else:
-            flash("You don't have any entries!", "danger")
-            return redirect('/new-entry')
+    return render_template('past_entries_log.html', title='Past Entries', entries=entries, user=current_user)
 
-        return render_template('past_entries_log.html', title='Past Entries', entries=entries)
+
+@app.route('/past-entries/<int:entry_id>/edit', methods=["GET", "POST"])
+@login_required
+def edit_entry(entry_id):
+    form = EntryForm()
+    form.update_choices()
+    entry = Entry.query.filter_by(id=entry_id).first()
+    diagnosis = entry.get_diagnosis_id(id=entry_id)
+    category = entry.get_category_id(id=entry_id)
+    symptom = entry.get_symptom_id(id=entry_id)
+    if diagnosis:
+        form.diagnosis.default = diagnosis.id
+        form.symptom.default = symptom.id
+        form.category.default = category.id
+        form.process()
+    else:
+        form.symptom.default = symptom.id
+        form.category.default = category.id
+        entry.form.process()
+        form.entry_details.default = entry.entry_details
+        entry.form.process()
+    # if form.validate_on_submit:
+
+        #  return redirect('/past-entries')
+    return render_template('entry_edit.html', form=form)
+
+@app.route('/past-entries/<int:entry_id>/delete', methods=["GET", "POST"])
+@login_required
+def delete_entry(entry_id):
+    form = DeleteEntryForm
+    if form.delete:
+
+
+        if form.yes:
+            Entry.query.filter_by(entry_id).delete()
+
+
+@app.route('/modal', methods=["GET", "POST"])
+def modal_test():
+    return render_template('modals.html')
 
 
 @app.route('/logout')

@@ -30,44 +30,22 @@ class User(db.Model, UserMixin):
         self.hash_password = generate_password_hash(hash_password)
     
     def check_password(self, password):
+        """ Check that the regular password matches the password stored after it has been hashed """
         return check_password_hash(self.hash_password, password)
 
     def __repr__(self):
         return f'<User: user_id = {self.id}>, <Username = {self.username}>'
 
 
-# entry_symptoms = db.Table(
-#     "entry_symptoms", db.metadata,
-#     db.Column('entry_id', db.Integer, db.ForeignKey('entries.id')),
-#     db.Column('symptom_id', db.Integer, db.ForeignKey('symptoms.id'))
-# )
-
-
-# entry_categories = db.Table(
-#     "entry_categories", db.metadata,
-#     db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
-#     db.Column('category_id', db.Integer, db.ForeignKey("categories.id"))
-# )
-
-# entry_diagnoses = db.Table(
-#     "entry_diagnoses", db.metadata,
-#     db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
-#     db.Column('diagnosis_id', db.Integer, db.ForeignKey("diagnoses.id"))
-# )
 
 
 class Entry(db.Model):
+    """ Entries Table inheriting from db.Model"""
     __tablename__ = "entries"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     entry_details = db.Column(db.String(500), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    # symptoms = db.relationship("Symptoms", secondary=entry_symptoms,
-    #                             backref="entry")
-    # categories = db.relationship("Categories",secondary=entry_categories,
-    #                               backref="entry")
-    # diagnoses = db.relationship("Diagnosis", secondary=entry_diagnoses,
-    #                             backref=db.backref("entry")
     entry_date_time = db.Column(db.DateTime, default=datetime.now)
 
     def __init__(self, entry_details, user_id):
@@ -77,15 +55,30 @@ class Entry(db.Model):
     def __repr__(self):
         return f'<Entry on {self.entry_date_time} for diagnosis: {self.diagnosis_name}, symptom: {self.symptom_name} with category: {self.category_name}>'
 
+    def get_diagnosis_id(self, id):
+        """ Queries through junction table to get Diagnosis class object through Entry class object's id"""
+        entry = EntryDiagnoses.query.filter_by(entry_id=id).first()
+        diagnosis = Diagnosis.query.filter_by(id=entry.diagnosis_id).first()
+        return diagnosis
+    
+    def get_symptom_id(self, id):
+        """ Queries through junction table to get Symptoms class object through Entry class object's id"""
+        entry = EntrySymptoms.query.filter_by(entry_id=id).first()
+        symptom = Symptoms.query.filter_by(id=entry.symptom_id).first()
+        return symptom
+
+    def get_category_id(self,id):
+        """ Queries through junction table to get Categories class object through Entry class object's id"""
+        entry = EntryCategories.query.filter_by(entry_id=id).first()
+        category = Categories.query.filter_by(id=entry.category_id).first()
+        return category
+
 
 class Symptoms(db.Model):
     __tablename__ = "symptoms"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     symptom_name = db.Column(db.String(80))
-    # entries = db.relationship('Entry', secondary="entry_symptoms",  lazy='subquery',
-    #     backref=db.backref('entries_symptoms', lazy=True))
-
 
     def __init__(self, symptom_name):
         self.symptom_name = symptom_name
@@ -110,8 +103,7 @@ class Categories(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category_name = db.Column(db.String(80))
-    # entries = db.relationship('Entry', secondary="entry_categories",  lazy='subquery',
-    #     backref=db.backref('entries_categories', lazy=True))
+   
 
     def __init__(self, category_name):
         self.category_name = category_name
@@ -136,8 +128,6 @@ class Diagnosis(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     diagnosis_name = db.Column(db.String(100))
-    entries = db.relationship('Entry', secondary="entry_diagnoses",  lazy='subquery',
-        backref=db.backref('entries_diagnoses', lazy=True))
 
     def __init__(self, diagnosis_name):
         self.diagnosis_name = diagnosis_name
@@ -157,6 +147,8 @@ class EntryDiagnoses(db.Model):
         return f'<Entry ID: {self.entry_id}>, <Diagnosis ID: {self.diagnosis_id}>'
 
 def baseline_select_options():
+    """ Creates the baseline options for select fields in EntryForm by adding names to each respective table """
+
     baseline_diagnoses = ["Cancer", "Celiac Disease", "Cohn's Disease", "Diabetes", "Diverticulitis", "Endometriosis", "Epilepsy", "Fibromyalgia", "Flu", "Irritable bowel syndrome (IBS)", "Kidney Stones", "Unknown"]
     baseline_symptoms = ["Congestion","Headache", "Lethargic", "Nausea", "Numbness", "Other", "Pain","Vertigo" ]
     baseline_categories = ["Cardiology (heart)", "Dermatology (skin)", "Endocrinology (hormone-related)", "ENT (ears, nose, throat)", "Gastroenterology (GI / Abdomen)", "Opthamology (eyes)", "Oncology (cancer)", "Other", "Unknown", "Urology (urinary)"]

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="jumbotron">
+<div>
     {% if answer == 'yes': %}
         <form method="POST">
             {{ form.diagnosis.label }}<br>{{ form.diagnosis() }}<br>

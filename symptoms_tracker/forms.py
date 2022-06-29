@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, DateField, RadioField, SubmitField, TextAreaField, SelectField, ValidationError
+from wtforms import StringField, PasswordField, DateField, RadioField, SubmitField, TextAreaField, SelectField, ValidationError, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, optional, length
 from model import User, Diagnosis, Symptoms, Categories
 
@@ -40,6 +40,7 @@ class EntryForm(FlaskForm):
     entry_details = TextAreaField('Details', validators=[DataRequired()])  
     category = SelectField('What specialty is this related to?', validators=[DataRequired()])
     other_category = StringField('Other Category', validators=[optional()])
+    hidden_id = HiddenField()
     submit2 = SubmitField('Submit')
 
     def update_choices(self):
@@ -47,3 +48,19 @@ class EntryForm(FlaskForm):
         self.symptom.choices = [(s.id, s.symptom_name) for s in Symptoms.query.all()]
         self.category.choices = [(c.id, c.category_name) for c in Categories.query.all()]
 
+    def inital_value(self):
+        pass
+
+
+class EditEntryForm(EntryForm):
+    def __init__(self, diagnosis, symptom, entry_details, category, submit):
+        super().__init__(diagnosis, symptom, entry_details, category)
+        self.edit = SelectField("EDIT")
+        self.submit = SubmitField("Update")
+    
+
+
+class DeleteEntryForm(FlaskForm):
+    delete = SubmitField("DELETE")
+    yes = SubmitField("Delete")
+    no = SubmitField("Don't Delete")

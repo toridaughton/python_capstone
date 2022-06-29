@@ -1,29 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
-    <tr>
-        <br>
-        {% for entry in entries %}
-            <td>
-                {{ entry.entry_date_time }}
-            </td>
+    <h3>Hi, {{ user.first_name }}</h3>
+    <div>
+        <tr>
+            {% for entry in entries %}
             <br>
-            <td>
-                {{ entry.diagnosis.diagnosis_name }}
-            </td>
-            <td> 
-                {{ entry.entry_details }}
-            </td>
-            <br>
-            <td>
-                {{ entry.symptom.symptom_name }}
-            </td>
-            <br>
-            <td>
-                {{ entry.category.category_name }}
-            </td>
-        {% endfor %} 
-        <br>
-</div>
+                <td>
+                    {{ entry.entry_date_time }}
+                </td>
+                <br>
+                <td>
+                    {{ entry.diagnosis.diagnosis_name }}
+                </td>
+                <br>
+                <td> 
+                    {{ entry.entry_details }}
+                </td>
+                <br>
+                <td>
+                    {{ entry.symptom.symptom_name }}
+                </td>
+                <br>
+                <td>
+                    {{ entry.category.category_name }}
+                </td>
+                <br>
+              </table>
+              <a class="btn btn-info" href="/past-entries/{{ entry.id }}/edit"> Edit </a>
+{% endfor %}
+{% endblock %}
+
+{% block script %}
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/957a801636.js" crossorigin="anonymous"></script>
 {% endblock %}

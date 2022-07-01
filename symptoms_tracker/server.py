@@ -102,7 +102,9 @@ def entry():
         db.session.add(entry)
         db.session.commit()
 
-        if diagnosis_answer == "yes":
+        diagnosis_chosen = form.diagnosis.data
+
+        if diagnosis_chosen:
             entry_diagnosis = EntryDiagnoses(entry_id=entry.id, diagnosis_id=form.diagnosis.data)
             db.session.add(entry_diagnosis)
         entry_symptoms = EntrySymptoms(entry_id=entry.id, symptom_id=form.symptom.data)

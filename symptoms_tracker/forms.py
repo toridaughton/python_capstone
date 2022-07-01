@@ -31,36 +31,38 @@ class LoginForm(FlaskForm):
 
 class DiagnosisForm(FlaskForm):
     associated_diagnosis = RadioField('Is there an associated Diagnosis?', choices=['yes', 'no'])
-    submit1 = SubmitField('Submit')
+    submit = SubmitField('Submit')
+
 
 class EntryForm(FlaskForm):
-    diagnosis = SelectField('Diagnosis', validators=[DataRequired()])
+    diagnosis = SelectField('Diagnosis', validators=[DataRequired()], default=None)
     other_diagnosis = StringField('Other Diagnosis', validators=[optional()])
-    symptom = SelectField('Symptom', validators=[DataRequired()])
-    entry_details = TextAreaField('Details', validators=[DataRequired()])  
-    category = SelectField('What specialty is this related to?', validators=[DataRequired()])
-    other_category = StringField('Other Category', validators=[optional()])
-    hidden_id = HiddenField()
-    submit2 = SubmitField('Submit')
+    symptom = SelectField('Symptom', validators=[DataRequired()], default=None)
+    entry_details = TextAreaField('Details', validators=[DataRequired()], default=None)  
+    category = SelectField('What specialty is this related to?', validators=[DataRequired()], default=None)
+    other_category = StringField('Other Category', validators=[optional()], default=None)
+    # hidden_id = HiddenField()
+    entry_submit = SubmitField('Submit')
 
     def update_choices(self):
         self.diagnosis.choices = [(d.id, d.diagnosis_name) for d in Diagnosis.query.all()]
         self.symptom.choices = [(s.id, s.symptom_name) for s in Symptoms.query.all()]
         self.category.choices = [(c.id, c.category_name) for c in Categories.query.all()]
 
-    def inital_value(self):
-        pass
+
+# class EditEntryForm(FlaskForm):
+#     diagnosis = SelectField('Diagnosis', validators=[DataRequired()])
+#     other_diagnosis = StringField('Other Diagnosis', validators=[optional()])
+#     symptom = SelectField('Symptom', validators=[DataRequired()])
+#     entry_details = TextAreaField('Details', validators=[DataRequired()])  
+#     category = SelectField('What specialty is this related to?', validators=[DataRequired()])
+#     other_category = StringField('Other Category', validators=[optional()])
+#     update = SubmitField("Update")
 
 
-class EditEntryForm(EntryForm):
-    def __init__(self, diagnosis, symptom, entry_details, category, submit):
-        super().__init__(diagnosis, symptom, entry_details, category)
-        self.edit = SelectField("EDIT")
-        self.submit = SubmitField("Update")
-    
-
+# class ConfirmDelete(FlaskForm):
+#     confirm = RadioField('Are you sure you want to delete this entry?', choices=['Yes', 'No'])
 
 class DeleteEntryForm(FlaskForm):
+    hidden = HiddenField()
     delete = SubmitField("DELETE")
-    yes = SubmitField("Delete")
-    no = SubmitField("Don't Delete")

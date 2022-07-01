@@ -1,5 +1,5 @@
 from os import environ
-from forms import RegisterForm, LoginForm, EntryForm, DiagnosisForm, EditEntryForm, DeleteEntryForm
+from forms import RegisterForm, LoginForm, EntryForm, DiagnosisForm, DeleteEntryForm
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from model import User, EntrySymptoms, EntryCategories, EntryDiagnoses, Entry, Symptoms, Categories, Diagnosis
@@ -95,25 +95,21 @@ def entry():
     form = EntryForm()
     form.update_choices()
 
-    if form.submit2.data:
+    if form.entry_submit.data:
 
         entry = Entry(form.entry_details.data, user.id)
 
         db.session.add(entry)
         db.session.commit()
 
-
-        entry_diagnosis = EntryDiagnoses(entry_id=entry.id, diagnosis_id=form.diagnosis.data)
+        if diagnosis_answer == "yes":
+            entry_diagnosis = EntryDiagnoses(entry_id=entry.id, diagnosis_id=form.diagnosis.data)
+            db.session.add(entry_diagnosis)
         entry_symptoms = EntrySymptoms(entry_id=entry.id, symptom_id=form.symptom.data)
-        entry_categories = EntryCategories(entry_id = entry.id, category_id=form.category.data)
+        entry_categories = EntryCategories(entry_id= entry.id, category_id=form.category.data)
 
-        db.session.add_all([entry_diagnosis, entry_symptoms, entry_categories])
+        db.session.add_all([entry_symptoms, entry_categories])
         db.session.commit()
-
-        # entry.symptoms.append(symptom)
-        # entry.diagnoses.append(diagnosis)
-        # entry.categories.append(category)
-        # db.session.commit()
 
         flash('Entry has been submitted', 'success')
         return redirect('/past-entries')
@@ -124,70 +120,130 @@ def entry():
 @app.route('/past-entries', methods=["GET", "POST"])
 @login_required
 def past_entries():
-    form = EntryForm()
-    form.update_choices()
-    entries = Entry.query.filter_by(user_id=current_user.id).all()
-    if entries: # If an entry exists:
-        for entry in entries:
-            entry.diagnosis = entry.get_diagnosis_id(entry.id)
-            entry.symptom = entry.get_symptom_id(entry.id)
-            entry.category = entry.get_category_id(entry.id)
-    
-    else: # If no entries exist
-        flash("You don't have any entries!", "danger")
-        return redirect('/new-entry')
-        
+    if current_user.is_authenticated:
+        form = EntryForm()
+        form.update_choices()
+        entries = Entry.query.filter_by(user_id=current_user.id).all()
+        if entries: # If an entry exists:
+            for entry in entries:
+                try:
+                    entry.diagnosis = entry.get_diagnosis_id(entry.id)
+                except:
+                    print('no diagnosis for diagnosis!')
+                else:
+                    entry.diagnosis = entry.get_diagnosis_id(entry.id)
+                    entry.symptom = entry.get_symptom_id(entry.id)
+                    entry.category = entry.get_category_id(entry.id)
+                finally:
+                    entry.symptom = entry.get_symptom_id(entry.id)
+                    entry.category = entry.get_category_id(entry.id)
 
-    return render_template('past_entries_log.html', title='Past Entries', entries=entries, user=current_user)
+
+        else: # If no entries exist
+            flash("You don't have any entries!", "danger")
+            return redirect('/new-entry')
+
+        return render_template('past_entries_log.html', title='Past Entries', entries=entries, user=current_user)
 
 
-@app.route('/past-entries/<int:entry_id>/edit', methods=["GET", "POST"])
+@app.route('/past-entries/edit/<int:entry_id>', methods=["GET", "POST"])
 @login_required
 def edit_entry(entry_id):
-    form = EntryForm()
-    form.update_choices()
-    entry = Entry.query.filter_by(id=entry_id).first()
-    diagnosis = entry.get_diagnosis_id(id=entry_id)
-    category = entry.get_category_id(id=entry_id)
-    symptom = entry.get_symptom_id(id=entry_id)
-    if diagnosis:
-        form.diagnosis.default = diagnosis.id
-        form.symptom.default = symptom.id
-        form.category.default = category.id
-        form.process()
-    else:
-        form.symptom.default = symptom.id
-        form.category.default = category.id
-        entry.form.process()
-        form.entry_details.default = entry.entry_details
-        entry.form.process()
-    # if form.validate_on_submit:
+    if current_user.is_authenticated:
+        form = EntryForm()
+        form.update_choices()
 
-        #  return redirect('/past-entries')
-    return render_template('entry_edit.html', form=form)
+        entry = Entry.query.filter_by(id=entry_id).first()
 
-@app.route('/past-entries/<int:entry_id>/delete', methods=["GET", "POST"])
+        entry_symptom = EntrySymptoms.query.filter_by(entry_id=entry_id).first()
+        entry_diagnosis = EntryDiagnoses.query.filter_by(entry_id=entry_id).first()
+        entry_category = EntryCategories.query.filter_by(entry_id=entry_id).first()
+
+        if entry_diagnosis:
+            diagnosis = entry.get_diagnosis_id(id=entry_id)
+        else:
+            diagnosis = None
+        category = entry.get_category_id(id=entry_id)
+        symptom = entry.get_symptom_id(id=entry_id)
+
+        if request.method == "GET":
+            if diagnosis:
+                form.diagnosis.default = diagnosis.id
+            else: 
+                form.diagnosis.default = 12
+            form.symptom.default = symptom.id
+            form.category.default = category.id
+            form.entry_details.default = entry.entry_details
+            form.process()
+
+        if form.entry_submit.data:
+            if not diagnosis:
+                new_diagnosis_id = EntryDiagnoses(entry_id=entry_id, diagnosis_id=form.diagnosis.data)
+                db.session.add(new_diagnosis_id)
+            else: 
+                entry_diagnosis.diagnosis_id = form.diagnosis.data
+                db.session.add(entry_diagnosis)
+            entry_symptom.symptom_id = form.symptom.data
+            entry.entry_details = form.entry_details.data
+            entry_category.category_id = form.category.data
+            db.session.commit()
+
+            return redirect('/past-entries')
+
+        return render_template('entry_edit.html', form=form, entry=entry)
+
+
+@app.route('/past-entries/delete/<int:entry_id>', methods=["GET","POST"])
 @login_required
 def delete_entry(entry_id):
-    form = DeleteEntryForm
-    if form.delete:
+    if current_user.is_authenticated:
+        submit = DeleteEntryForm()
+        entry = Entry.query.filter_by(id=entry_id).first()
+        print(entry)
+        try:
+            diagnosis = entry.get_diagnosis_id(id=entry_id)
+            print(diagnosis)
+        except:
+            print('Diagnosis id does not exist!')
+        else:
+            diagnosis = entry.get_diagnosis_id(id=entry_id)
+            category = entry.get_category_id(id=entry_id)
+            symptom = entry.get_symptom_id(id=entry_id)
+        finally:
+            category = entry.get_category_id(id=entry_id)
+            symptom = entry.get_symptom_id(id=entry_id)
+            
+        entry_symptom = EntrySymptoms.query.filter_by(entry_id=entry_id, symptom_id=symptom.id).first()
+        entry_category = EntryCategories.query.filter_by(entry_id=entry_id, category_id=category.id).first()
 
-
-        if form.yes:
-            Entry.query.filter_by(entry_id).delete()
-
-
-@app.route('/modal', methods=["GET", "POST"])
-def modal_test():
-    return render_template('modals.html')
+        if submit.delete.data:
+            try:
+                entry_diagnosis = EntryDiagnoses.query.filter_by(entry_id=entry_id, diagnosis_id=diagnosis.id).first()
+                db.session.delete(entry_diagnosis)
+            except:
+                print("No diagnosis to delete")
+            else:
+                entry_diagnosis = EntryDiagnoses.query.filter_by(entry_id=entry_id, diagnosis_id=diagnosis.id).first()
+                db.session.delete(entry_symptom)
+                db.session.delete(entry_category)
+                db.session.delete(entry)
+            finally:
+                db.session.delete(entry_symptom)
+                db.session.delete(entry_category)
+                db.session.delete(entry)
+            db.session.commit()
+            return redirect('/past-entries')
+        
+        return render_template('delete_entry.html', submit=submit)
 
 
 @app.route('/logout')
 @login_required
 def logout():
-    flash('You have been logged out', 'info')
-    logout_user()
-    return redirect(url_for('homepage'))
+    if current_user.is_authenticated:
+        flash('You have been logged out', 'info')
+        logout_user()
+        return redirect(url_for('homepage'))
 
 
 if __name__ == '__main__':

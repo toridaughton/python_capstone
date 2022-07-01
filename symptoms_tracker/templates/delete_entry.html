@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST">
+        <h3>Are you sure you want to permanently DELETE this entry?</h3>
+        <h5>This action cannot be undone!</h5>
+        {{submit.delete(class_="btn btn-danger")}}
+        <a href="{{ url_for('past_entries') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+{% endblock %}

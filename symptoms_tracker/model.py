@@ -53,13 +53,16 @@ class Entry(db.Model):
         self.user_id = user_id
 
     def __repr__(self):
-        return f'<Entry on {self.entry_date_time} for diagnosis: {self.diagnosis_name}, symptom: {self.symptom_name} with category: {self.category_name}>'
+        return f'<Entry ID: {self.id} User ID: {self.id}>'
 
     def get_diagnosis_id(self, id):
         """ Queries through junction table to get Diagnosis class object through Entry class object's id"""
         entry = EntryDiagnoses.query.filter_by(entry_id=id).first()
-        diagnosis = Diagnosis.query.filter_by(id=entry.diagnosis_id).first()
-        return diagnosis
+        if entry:
+            diagnosis = Diagnosis.query.filter_by(id=entry.diagnosis_id).first()
+            return diagnosis
+        else:
+            return None
     
     def get_symptom_id(self, id):
         """ Queries through junction table to get Symptoms class object through Entry class object's id"""

@@ -3,22 +3,22 @@
 {% block content %}
 <div>
     {% if answer == 'yes': %}
-        <form method="POST">
+        <form method="POST" action="{{ url_for('entry') }}">
             {{ form.diagnosis.label }}<br>{{ form.diagnosis() }}<br>
             {{ form.symptom.label }}<br>{{ form.symptom() }}<br>
             {{ form.category.label}}<br>{{ form.category() }}<br>
             {{ form.entry_details.label }}<br>{{ form.entry_details(rows=8, cols=85) }}<br>
-            {{ form.submit2 }}
+            {{ form.entry_submit(class_="btn btn-success") }}
         </form>
     {% elif answer == 'no': %}
-        <form method="POST">
+        <form method="POST" action="{{ url_for('entry') }}" >
             {{ form.category.label}}<br>{{ form.category() }}<br>
             {{ form.symptom.label }}<br>{{ form.symptom() }}<br>
             {{ form.entry_details.label }}<br>{{ form.entry_details(rows=8, cols=85) }}<br>
-            {{ form.submit2 }}
+            {{ form.entry_submit(class_="btn btn-success") }}
         </form>
     {% else %}
-        <form method="POST">
+        <form method="POST" action="{{ url_for('entry') }}">
             <p>Is there a diagnosis associated with the symptoms you want to document?</p>
             {% for answer in diagnosis_form.associated_diagnosis %}
             <tr>
@@ -31,7 +31,7 @@
             </tr>
             {% endfor %}
             <br>
-            {{ diagnosis_form.submit1 }}
+            {{ diagnosis_form.submit(class_= "btn btn-success") }}
         </form>
     {% endif %}
 </div>

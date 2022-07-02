@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
+    <div class="home">
         {% if current_user.is_authenticated %}
             <h3>Hi, {{ current_user.username }}!</h3>
             <p>Where to?</p>
@@ -13,11 +13,10 @@
             </a>
         {% else %}
             <aside class="info">
-                <h2>Symptoms Tracker</h2>
                 <h3>Keep your symptoms organized</h3>
                 <h4>Log in to get started!</h4>
             </aside>
-            <img src="/static/images/note-taking-image-home.jpg" alt="note-taking-img" width="615" height="792"/> 
+            <img class="img-responsive center-block hidden-xs" src="/static/images/note-taking-image-home.jpg" alt="note-taking-img" width="40%" height="650"/> 
         {% endif %}
     </div>
     {% endblock %}

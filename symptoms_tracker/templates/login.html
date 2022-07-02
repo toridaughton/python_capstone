@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.email(placeholder='email') }}
-        {{ form.password(placeholder='password')}}
-        {{ form.submit() }}
+    <form method="POST" class="login">
+        <div>
+            {{ form.hidden_tag() }}
+            {{ form.email.label() }}<br>{{ form.email(placeholder='email') }}<br>
+            {{ form.password.label()}}<br>{{ form.password(placeholder='password')}}<br>
+            <div class="login-submit">
+                {{ form.submit(class_="btn btn-success btn-lg btn-block") }}
+            </div>
+        </div>
     </form>
 
 

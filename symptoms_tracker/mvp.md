@@ -10,7 +10,7 @@ MVP:
 
 - Users can create an account/login
 
-- Users can select symptom from dropdown or add their own
+- Users can select symptom from dropdown
 
 - Users can create an entry related to symptom including time of day and additional details that occurred during episode.
 
@@ -22,6 +22,8 @@ MVP:
 
 
 Future Features:
+
+- User can create their own symptoms in drop down
 
 - Users can search for past entries by date or keywords
 

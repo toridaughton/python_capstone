@@ -4,35 +4,55 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles.css"/>
+    <link rel="stylesheet" href="/static/css/reset.css"/>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css"/>
     <title>{% block title %} Symptoms Tracker {{ title }} {% endblock %}</title>
 </head>
 <body>
     <header>
-        <div class="home">
-            <a href="{{ url_for('homepage') }}" class="nav-link">Symptoms Tracker</a>
-        </div>
-        <nav class="nav">
-            {% if current_user.is_authenticated %}
-            <a href="{{ url_for('entry') }}" class="nav-link"><i class="fa-solid fa-file-medical"></i> New Entry</a>
-            <a href="{{ url_for('past_entries') }}" class="nav-link"><i class="fa-solid fa-book-medical"></i> Past Entries</a>
-            <a href="{{ url_for('logout') }}" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-            {% else%}
-            <a href="{{ url_for('registration')}}" class="nav-link">Sign up</a>
-            <a href="{{ url_for('login') }}" class="nav-link">Login</a>
-            {% endif %}
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <a href="{{ url_for('homepage') }}" class="navbar-brand">Symptoms Tracker</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    {% if current_user.is_authenticated %}
+                    <div class="nav-right">
+                        <li class="nav-item">
+                            <a href="{{ url_for('entry') }}" class="nav-link btn"><i class="fa-solid fa-file-medical"></i> New Entry</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('past_entries') }}" class="nav-link btn btn-secondary"><i class="fa-solid fa-book-medical"></i> Past Entries</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('logout') }}" class="nav-link btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                        </li>
+                    </div>
+                    <div>
+                        {% else%}
+                        <li class="nav-item">
+                            <a href="{{ url_for('registration')}}" class="nav-link btn btn-light">Sign up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('login') }}" class="nav-link btn btn-light">Login</a>
+                        </li>
+                        {% endif %}
+                    </div>
+                </ul>
+            </div>
         </nav>
     </header>
     <main>
-        <div>
+        <div class="container-fluid">
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
             {% endwith %}
             {% block content %}
             
@@ -40,5 +60,31 @@
         </div>
     </main>  
 </body>
+<script src="https://kit.fontawesome.com/957a801636.js" crossorigin="anonymous"></script>
 {% block script %} {% endblock %}
 </html>
+
+
+<!-- 
+
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul> -->

@@ -1,0 +1,62 @@
+body {
+    background-color: #DFC2F2;
+    padding-top: 8%;
+}
+
+.navbar {
+    background-color: #DFC2F2;
+}
+
+@media only screen and (max-width: 480px) {
+    img {
+      width: 100%;
+    }
+    form {
+        margin-top: 3rem;
+        padding: 3rem;
+    }
+  }
+
+
+img {
+    border-radius: 15%;
+}
+
+ /* {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+} */
+
+.submit-btn {
+    padding-top: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+form {
+    margin-top: 2rem;
+    padding: 5rem;
+    border-radius: 2rem;
+    background-color: white;
+    width: 50rem;
+}
+
+.login {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 25rem;
+}
+
+.login-submit .reg-submit {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+}
+
+nav-right {
+    width: 50rem;
+    display: flex;
+    justify-content: space-between;
+}

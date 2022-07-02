@@ -4,7 +4,7 @@
 <div>
     {% if answer == 'yes': %}
         <form method="POST" action="{{ url_for('entry') }}">
-            {{ form.diagnosis.label }}<br>{{ form.diagnosis() }}<br>
+            {{ form.diagnosis.label }}<br>{{ form.diagnosis(class="custom-select custom-select-lg mb-3") }}<br>
             {{ form.symptom.label }}<br>{{ form.symptom() }}<br>
             {{ form.category.label}}<br>{{ form.category() }}<br>
             {{ form.entry_details.label }}<br>{{ form.entry_details(rows=8, cols=85) }}<br>
@@ -32,8 +32,10 @@
             {% endfor %}
             <br>
             {{ diagnosis_form.submit(class_= "btn btn-success") }}
+            <a href="{{ url_for('homepage') }}" class="btn btn-secondary">Cancel</a>
         </form>
     {% endif %}
+
 </div>
 
 {% endblock %}

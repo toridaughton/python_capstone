@@ -2,29 +2,34 @@
 
 {% block content %}
 <div class="reg">
-    <form class="form-group" method="POST" style="background-color: white;">
-        <h3>Sign Up</h3>
-        {{ form.hidden_tag() }}
-        <div class="form-control">
-            {{ form.first_name(placeholder='First Name', style_="width: 11.5rem") }}
-            {{ form.last_name(placeholder='Last Name', style_="width: 11.5rem") }}
-        </div>
-        <div class="form-control">
-            {{ form.username(placeholder='Username', style_="width: 11.5rem") }} {{ form.dob.label(style_='background-color: white;') }} {{ form.dob(placeholder='Birthdate') }}<br>
-        </div>
-        <div class="form-control">
-            {{ form.email(placeholder='Email', style_="width: 23.3rem") }}
-        </div>
-        <div class="form-control">
-            {{ form.password(placeholder='Password', style_="width: 23.3rem") }}
-        </div>
-        <div class="form-control">
-            {{ form.confirm_pass(placeholder='Confirm Password', style_="width: 23.3rem")}}<br>
-        </div>
-        <div class="reg-submit">
-            {{ form.submit(class_='btn btn-success', style_='background-color: green') }}
+    <form method="POST">
+        <div class="form-group">
+            <h3>Sign Up</h3>
+            {{ form.hidden_tag() }}
+            <div class="form-control">
+                {{ form.first_name(placeholder='First Name', style_="width: 11.5rem") }}
+                {{ form.last_name(placeholder='Last Name', style_="width: 11.5rem") }}
+            </div>
+            <div class="form-control">
+                {{ form.username(placeholder='Username', style_="width: 11.5rem") }} {{ form.dob.label(style_='background-color: white;') }} {{ form.dob(placeholder='Birthdate') }}<br>
+            </div>
+            <div class="form-control">
+                {{ form.email(placeholder='Email', style_="width: 23.3rem") }}
+            </div>
+            <div class="form-control">
+                {{ form.password(placeholder='Password', style_="width: 23.3rem") }}
+            </div>
+            <div class="form-control">
+                {{ form.confirm_pass(placeholder='Confirm Password', style_="width: 23.3rem")}}<br>
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                {{ form.submit(class_='btn btn-success', type_="button", style_='background-color: green') }}
+            </div>
         </div>
     </form>
 </div>
+<aside class="site-info">
+    <h3>A place to keep track of your symptoms for future reference. <br> Keep them all in one place to easily share with your doctor</h3>
+</aside>
 
 {% endblock %}

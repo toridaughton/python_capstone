@@ -2,25 +2,29 @@
     font-family: 'Patrick Hand', cursive;
 }
 
-body {
-    background-color: #DFC2F2;
-    padding-top: 8%;
+header {
+    padding-left: 2rem;
 }
 
 .navbar {
     background-color: #DFC2F2;
 }
 
+body {
+    background-color: #DFC2F2;
+    padding-top: 8%;
+}
+
+
 @media only screen and (max-width: 480px) {
     img {
       width: 100%;
     }
     form {
-        margin-top: 3rem;
+        margin-top: 5rem;
         padding: 3rem;
     }
   }
-
 
 img {
     border-radius: 15%;
@@ -44,45 +48,60 @@ img {
 
 form {
     display: flex;
+    justify-content: center;
     justify-items: center;
     flex-wrap: wrap;
     font-size: larger;
-    margin-top: 2rem;
+    margin-top: 3rem;
     padding: 5rem;
     border-radius: 2rem;
     background-color: white;
-    height: 35rem;
-    width: 35rem;
+    height: auto;
+    width: 30rem;
 }
-
 
 .login {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
-    align-items: center;
-    height: auto;
-    width: 23rem;
-    font-size: large;
-}
-
-.login-submit .reg-submit {
-    display: flex;
-    justify-content: center;
-    margin: 1rem;
+    justify-content: right;
+    margin-right: 5rem;
 }
 
 .login-header {
     display: flex;
     text-align: center;
-    width: 20rem;
+    width: 15rem;
 }
 
 .welcome-back {
+    display: flex;
+    justify-content: center;
     font-family: 'Rubik Bubbles', cursive;   
 }
 
+.red-note-takingm{
+    display: flex;
+    justify-content: left;
+    margin-left: 5rem;
+}
 
 .nav-item {
     margin: 1rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+.reg {
+    margin-left: 5rem;
+    display: flex;
+    justify-content: left;
+}
+
+.site-info {
+    display: flex;
+    align-items: center;
+    justify-items: right;
+    margin-right: 5rem;
 }

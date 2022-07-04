@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <aside class="welcome-back">
+        <h1>Welcome Back!</h1>
+    </aside>
     <form method="POST" class="login">
         <div>
+            <div class="login-header">
+                <h2>Symptoms Tracker <br> LOGIN</h2>
+            </div>
             {{ form.hidden_tag() }}
             {{ form.email.label() }}<br>{{ form.email(placeholder='email') }}<br>
             {{ form.password.label()}}<br>{{ form.password(placeholder='password')}}<br>

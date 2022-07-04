@@ -1,3 +1,7 @@
+* {
+    font-family: 'Patrick Hand', cursive;
+}
+
 body {
     background-color: #DFC2F2;
     padding-top: 8%;
@@ -34,19 +38,32 @@ img {
     align-items: center;
 }
 
+.form-control {
+    border: 0;
+}
+
 form {
+    display: flex;
+    justify-items: center;
+    flex-wrap: wrap;
+    font-size: larger;
     margin-top: 2rem;
     padding: 5rem;
     border-radius: 2rem;
     background-color: white;
-    width: 50rem;
+    height: 35rem;
+    width: 35rem;
 }
+
 
 .login {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
-    justify-content: center;
-    width: 25rem;
+    align-items: center;
+    height: auto;
+    width: 23rem;
+    font-size: large;
 }
 
 .login-submit .reg-submit {
@@ -55,8 +72,17 @@ form {
     margin: 1rem;
 }
 
-nav-right {
-    width: 50rem;
+.login-header {
     display: flex;
-    justify-content: space-between;
+    text-align: center;
+    width: 20rem;
+}
+
+.welcome-back {
+    font-family: 'Rubik Bubbles', cursive;   
+}
+
+
+.nav-item {
+    margin: 1rem;
 }

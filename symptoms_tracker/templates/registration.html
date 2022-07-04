@@ -3,25 +3,23 @@
 {% block content %}
 <div class="reg">
     <form class="form-group" method="POST" style="background-color: white;">
+        <h3>Sign Up</h3>
         {{ form.hidden_tag() }}
         <div class="form-control">
-            {{ form.first_name.label(style_='background-color: white;') }} {{ form.first_name(placeholder='First Name') }}
-            {{ form.last_name.label(style_='background-color: white;') }} {{ form.last_name(placeholder='Last Name') }}
+            {{ form.first_name(placeholder='First Name', style_="width: 11.5rem") }}
+            {{ form.last_name(placeholder='Last Name', style_="width: 11.5rem") }}
         </div>
         <div class="form-control">
-            {{ form.dob.label(style_='background-color: white;') }} {{ form.dob(placeholder='Birthdate') }}<br>
+            {{ form.username(placeholder='Username', style_="width: 11.5rem") }} {{ form.dob.label(style_='background-color: white;') }} {{ form.dob(placeholder='Birthdate') }}<br>
         </div>
         <div class="form-control">
-            {{ form.email.label(style_='background-color: white;') }} {{ form.email(placeholder='Email') }}<br>
+            {{ form.email(placeholder='Email', style_="width: 23.3rem") }}
         </div>
         <div class="form-control">
-            {{ form.username.label(style_='background-color: white;') }} {{ form.username(placeholder='Username') }}
+            {{ form.password(placeholder='Password', style_="width: 23.3rem") }}
         </div>
         <div class="form-control">
-            {{ form.password.label(style_='background-color: white;') }} {{ form.password(placeholder='Password') }}
-        </div>
-        <div class="form-control">
-            {{ form.confirm_pass.label(style_='background-color: white;') }} {{ form.confirm_pass(placeholder='Confirm Password')}}<br>
+            {{ form.confirm_pass(placeholder='Confirm Password', style_="width: 23.3rem")}}<br>
         </div>
         <div class="reg-submit">
             {{ form.submit(class_='btn btn-success', style_='background-color: green') }}

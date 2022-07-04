@@ -1,9 +1,27 @@
+@media only screen and (max-width: 480px) {
+    body {
+        margin-top: 10rem;
+    }
+
+    img {
+        display: none;
+    }
+    form {
+        margin-top: 1rem;
+        padding: 3rem;
+    }
+    .home-text {
+        display: flex;
+        justify-content: center;
+    }
+  }
+
 * {
     font-family: 'Patrick Hand', cursive;
 }
 
-header {
-    padding-left: 2rem;
+nav {
+    margin: 0, 2rem;
 }
 
 .navbar {
@@ -15,16 +33,18 @@ body {
     padding-top: 8%;
 }
 
+.home-text {
+    display: flex;
+    align-items: center;
+    justify-items: right;
+    text-align: center;
+    margin-top: 10rem;
+}
 
-@media only screen and (max-width: 480px) {
-    img {
-      width: 100%;
-    }
-    form {
-        margin-top: 5rem;
-        padding: 3rem;
-    }
-  }
+.home-bubble-text {
+    font-family: 'Rubik Bubbles', cursive;   
+}
+
 
 img {
     border-radius: 15%;
@@ -60,6 +80,12 @@ form {
     width: 30rem;
 }
 
+.login-header {
+    display: flex;
+    text-align: center;
+    width: 15rem;
+}
+
 .login {
     display: flex;
     flex-wrap: wrap;
@@ -67,10 +93,8 @@ form {
     margin-right: 5rem;
 }
 
-.login-header {
-    display: flex;
-    text-align: center;
-    width: 15rem;
+.login-form {
+    width: 27rem;
 }
 
 .welcome-back {
@@ -79,7 +103,7 @@ form {
     font-family: 'Rubik Bubbles', cursive;   
 }
 
-.red-note-takingm{
+.red-note-taking{
     display: flex;
     justify-content: left;
     margin-left: 5rem;
@@ -100,8 +124,10 @@ a {
 }
 
 .site-info {
+    font-size: 20rem;
     display: flex;
     align-items: center;
     justify-items: right;
+    text-align: center;
     margin-right: 5rem;
 }

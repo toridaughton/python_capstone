@@ -1,35 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <aside class="col">
-            <img class="img-responsive center-block hidden-xs" src="/static/images/red-note-taking.jpg" alt="Taking notes img" width="65%">
-        </aside>
-
-        <div class="col">
-            <div class="welcome-back">
-                <h1>Welcome Back!</h1>
-            </div>
-            <div class="login">
-                <form method="POST">
-                    <div class="form-group">
-                        <div class="login-header">
-                            <h2>Symptoms Tracker <br> LOGIN</h2>
+    <div class="container">
+        <div class="row">
+            <aside class="col">
+                <img class="img-responsive center-block hidden-xs" src="/static/images/red-note-taking.jpg" alt="Taking notes img" width="65%">
+            </aside>
+            <div class="col">
+                <div class="welcome-back">
+                    <h1>Welcome Back!</h1>
+                </div>
+                <div class="login">
+                    <form method="POST" class="login-form">
+                        <div class="form-group">
+                            <div class="login-header">
+                                <h2>Symptoms Tracker <br> LOGIN</h2>
+                            </div>
+                            <div class="login-input">
+                                {{ form.hidden_tag() }}
+                                <div class="form-control">
+                                    {{ form.email.label() }}<br>{{ form.email(placeholder='email') }}<br>
+                                </div>
+                                <div class="form-control">
+                                    {{ form.password.label()}}<br>{{ form.password(placeholder='password')}}<br>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                {{ form.submit(class_="btn btn-success btn-block") }}
+                            </div>
+                            <p>Don't already have an account? <a href="{{ url_for('registration') }}">Sign Up</a></p>
                         </div>
-                            {{ form.hidden_tag() }}
-                        <div class="form-control">
-                            {{ form.email.label() }}<br>{{ form.email(placeholder='email') }}<br>
-                        </div>
-                        <div class="form-control">
-                            {{ form.password.label()}}<br>{{ form.password(placeholder='password')}}<br>
-                        </div>
-                        <div class="d-grid gap-2 col-6 mx-auto">
-                            {{ form.submit(class_="btn btn-success btn-block") }}
-                        </div>
-                        <p>Don't already have an account? <a href="{{ url_for('registration') }}">Sign Up</a></p>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

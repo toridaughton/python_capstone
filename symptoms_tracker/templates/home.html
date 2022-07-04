@@ -12,11 +12,19 @@
             <a href="{{ url_for('past_entries')}}" class="btn btn-secondary past-entries">Past Entries
             </a>
         {% else %}
-            <aside class="info">
-                <h3>Keep your symptoms organized</h3>
-                <h4>Log in to get started!</h4>
-            </aside>
-            <img class="img-responsive center-block hidden-xs" src="/static/images/note-taking-image-home.jpg" alt="note-taking-img" width="40%" height="650"/> 
+        <div class="container">
+            <div class="row">
+                <aside class="d-block col home-text">
+                    <div class="home-bubble-text">
+                        <h1>Keep your symptoms organized</h1>
+                    </div>
+                    <h2>Log in to get started!</h2>
+                </aside>
+                <aside class="col">
+                    <img class="d-none d-lg-block" src="/static/images/note-taking-image-home.jpg" alt="note-taking-img" width="60%"/> 
+                </aside>
+            </div>
+        </div>
         {% endif %}
     </div>
     {% endblock %}

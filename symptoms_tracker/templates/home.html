@@ -3,25 +3,27 @@
 {% block content %}
     <div class="home">
         {% if current_user.is_authenticated %}
-            <h3>Hi, {{ current_user.username }}!</h3>
-            <p>Where to?</p>
-            <a href="{{ url_for('entry') }}" class="new-entry">
-                <button type="button" class="btn btn-info new-entry">Create Entry</button>
-            </a>
-            
-            <a href="{{ url_for('past_entries')}}" class="btn btn-secondary past-entries">Past Entries
-            </a>
+            <div class="logged-in-home">
+                <h1>Hi, {{ current_user.username }}!</h1><br>
+                <h3>Where to?</h3>
+                <a href="{{ url_for('entry') }}" class="new-entry">
+                    <button type="button" class="btn btn-lg btn-info new-entry">Create Entry</button>
+                </a>
+                <br>
+                <a href="{{ url_for('past_entries')}}" class="btn btn-lg btn-secondary past-entries">Past Entries
+                </a>
+            </div>
         {% else %}
         <div class="container">
             <div class="row">
-                <aside class="d-block col home-text">
+                <aside class="d-block col-6 home-text">
                     <div class="home-bubble-text">
                         <h1>Keep your symptoms organized</h1>
                     </div>
                     <h2>Log in to get started!</h2>
                 </aside>
                 <aside class="col">
-                    <img class="d-none d-lg-block" src="/static/images/note-taking-image-home.jpg" alt="note-taking-img" width="60%"/> 
+                    <img class="d-none d-lg-block" src="/static/images/note-taking-image-home.jpg" alt="note-taking-img" width="65%" height="85%"/> 
                 </aside>
             </div>
         </div>

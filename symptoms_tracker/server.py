@@ -1,4 +1,5 @@
 from os import environ
+from datetime import datetime
 from forms import RegisterForm, LoginForm, EntryForm, DiagnosisForm, DeleteEntryForm
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
 from flask import Flask, render_template, request, redirect, url_for, flash, session
@@ -128,6 +129,7 @@ def past_entries():
         entries = Entry.query.filter_by(user_id=current_user.id).all()
         if entries: # If an entry exists:
             for entry in entries:
+                entry.entry_date_time = entry.entry_date_time.strftime('%B %d, %Y at %I:%M %p')
                 try:
                     entry.diagnosis = entry.get_diagnosis_id(entry.id)
                 except:

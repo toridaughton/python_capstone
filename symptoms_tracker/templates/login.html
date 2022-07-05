@@ -19,12 +19,13 @@
                             <div class="login-input">
                                 {{ form.hidden_tag() }}
                                 <div class="form-control">
-                                    {{ form.email.label() }}<br>{{ form.email(placeholder='email') }}<br>
+                                    {{ form.email.label() }}<br>{{ form.email(placeholder='email', style_="width: 15rem") }}<br>
                                 </div>
                                 <div class="form-control">
-                                    {{ form.password.label()}}<br>{{ form.password(placeholder='password')}}<br>
+                                    {{ form.password.label()}}<br>{{ form.password(placeholder='password', style_="width: 15rem")}}<br>
                                 </div>
                             </div>
+                            <br>
                             <div class="d-grid gap-2 col-6 mx-auto">
                                 {{ form.submit(class_="btn btn-success btn-block") }}
                             </div>

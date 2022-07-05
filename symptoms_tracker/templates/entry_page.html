@@ -1,46 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
-    {% if answer == 'yes': %}
-        <form class="form-group" method="POST" action="{{ url_for('entry') }}">
+<div class="new-entry">
+    {% if answer == 'yes' %}
+    <div class="entry-with-diagnosis">
+        <form class="form-group entry-diagnosis-form" method="POST" action="{{ url_for('entry') }}">
             <div class="form-control">
-
+                {{ form.diagnosis.label }}<br>{{ form.diagnosis() }}
             </div>
-            {{ form.diagnosis.label }}<br>{{ form.diagnosis(class="custom-select custom-select-lg mb-3") }}<br>
-            {{ form.symptom.label }}<br>{{ form.symptom() }}<br>
-            {{ form.category.label}}<br>{{ form.category() }}<br>
-            {{ form.entry_details.label }}<br>{{ form.entry_details(rows=8, cols=50) }}<br>
-            {{ form.entry_submit(class_="btn btn-success") }}
-        </form>
-    {% elif answer == 'no': %}
-        <form class="form-group" method="POST" action="{{ url_for('entry') }}" >
-            {{ form.category.label}}<br>{{ form.category() }}<br>
             <div class="form-control">
-                {{ form.symptom.label }}<br>{{ form.symptom() }}<br>
+                {{ form.symptom.label }}<br>{{ form.symptom() }}
             </div>
-            {{ form.entry_details.label }}<br>{{ form.entry_details(rows=8, cols=50) }}<br>
-            {{ form.entry_submit(class_="btn btn-success") }}
+            <div class="form-control">
+                {{ form.category.label}}<br>{{ form.category() }}
+            </div>
+            <div class="form-control">
+                {{ form.entry_details.label }}<br>{{ form.entry_details(rows=8, cols=40) }}
+            </div>
+            <div class="form-control d-grid gap-2 col-6 mx-auto">
+                {{ form.entry_submit(class_="btn btn-success") }}
+                <a href="{{ url_for('entry') }}" class="btn btn-secondary">Cancel</a>
+            </div>
         </form>
+    </div>
+    {% elif answer == 'no' %}
+    <div class="entry-without-diagnosis">
+        <form class="new-entry-no-dx form-group" method="POST" action="{{ url_for('entry') }}" >
+            <div class="form-control">
+                {{ form.category.label}}<br>{{ form.category() }}
+            </div>
+            <div class="form-control">
+                {{ form.symptom.label }}<br>{{ form.symptom() }}
+            </div>
+            <div class="form-control">
+                {{ form.entry_details.label }}<br>{{ form.entry_details(rows=8, cols=40) }}
+            </div>
+            <div class="form-control d-grid gap-2 col-6 mx-auto">
+                {{ form.entry_submit(class_="btn btn-success") }}
+                <a href="{{ url_for('entry') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
     {% else %}
-        <form class="form-group" method="POST" action="{{ url_for('entry') }}">
-            <p>Is there a diagnosis associated with the symptoms you want to document?</p>
-            {% for answer in diagnosis_form.associated_diagnosis %}
-            <tr>
-                <td>
-                    {{ answer }}
-                </td>
-                <td>
-                    {{ answer.label }} 
-                </td>
-            </tr>
-            {% endfor %}
+    <div class="diagnosis-bubble">  
+        <form class="form-group diagnosis-question" method="POST" action="{{ url_for('entry') }}">
+            <h5>Is there a diagnosis associated with the symptoms you want to document?</h5>
+            <div class="yes-no">
+                {% for answer in diagnosis_form.associated_diagnosis %}
+                    <tr>
+                        <td>
+                            {{ answer }}
+                        </td>
+                        <td>
+                            {{ answer.label }} 
+                        </td>
+                    </tr>
+                {% endfor %}
+            </div>
             <br>
-            {{ diagnosis_form.submit(class_= "btn btn-success") }}
-            <a href="{{ url_for('homepage') }}" class="btn btn-secondary">Cancel</a>
+            <div class="entry_diagnosis_buttons">
+                {{ diagnosis_form.submit(class_= "btn btn-success") }}
+                <a href="{{ url_for('homepage') }}" class="btn btn-secondary">Cancel</a>
+            </div>
         </form>
     {% endif %}
-
+    </div>
 </div>
 
 {% endblock %}

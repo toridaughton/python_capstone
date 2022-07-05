@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 <form method="POST" action="/past-entries/edit/{{ entry.id }}">
-    {{ form.diagnosis.label }}<br>{{ form.diagnosis() }}<br>
-    {{ form.symptom.label }}<br>{{ form.symptom() }}<br>
-    {{ form.category.label }}<br>{{ form.category() }}<br>
-    {{ form.entry_details.label }}<br>{{ form.entry_details(rows=8, cols=85) }}<br>  
-    {{ form.entry_submit(class_="btn btn-info") }}
+    <div class="form-control">
+        {{ form.diagnosis.label }}<br>{{ form.diagnosis() }}
+    </div>
+    <div class="form-control">
+        {{ form.symptom.label }}<br>{{ form.symptom() }}
+    </div>
+    <div class="form-control">
+        {{ form.category.label }}<br>{{ form.category() }}
+    </div>
+    <div class="form-control">
+        {{ form.entry_details.label }}<br>{{ form.entry_details(rows=8, cols=50) }} 
+    </div>
+    <div class="form-control">
+        {{ form.entry_submit(class_="btn btn-info") }}
+    </div>
     <a class="btn btn-secondary" href="{{ url_for('past_entries') }}">Cancel</a>
 </form>
 {% endblock %}

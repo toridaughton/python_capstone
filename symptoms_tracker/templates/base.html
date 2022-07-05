@@ -16,40 +16,38 @@
     <title>{% block title %} Symptoms Tracker {{ title }} {% endblock %}</title>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="home">
-                <a href="{{ url_for('homepage') }}" class="navbar-brand">Symptoms Tracker</a>
-            </div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto">
-                    {% if current_user.is_authenticated %}
-                        <li class="nav-item">
-                            <a href="{{ url_for('entry') }}" class="nav-link btn btn-light"><i class="fa-solid fa-file-medical"></i> New Entry</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url_for('past_entries') }}" class="nav-link btn btn-light"><i class="fa-solid fa-book-medical"></i> Past Entries</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url_for('logout') }}" class="nav-link btn btn-light"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                        </li>
-                    <div>
-                        {% else%}
-                        <li class="nav-item">
-                            <a href="{{ url_for('registration')}}" class="nav-link btn btn-light">Sign up</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url_for('login') }}" class="nav-link btn btn-light">Login</a>
-                        </li>
-                        {% endif %}
-                    </div>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="home">
+            <a href="{{ url_for('homepage') }}" class="navbar-brand">Symptoms Tracker</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDropdown" aria-controls="navbarDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarDropdown">
+            <ul class="navbar-nav ms-auto">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{{ url_for('entry') }}" class="nav-link btn btn-light"><i class="fa-solid fa-file-medical"></i> New Entry</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('past_entries') }}" class="nav-link btn btn-light"><i class="fa-solid fa-book-medical"></i> Past Entries</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('logout') }}" class="nav-link btn btn-light"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    </li>
+                <div>
+                    {% else%}
+                    <li class="nav-item">
+                        <a href="{{ url_for('registration')}}" class="nav-link btn btn-light">Sign up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('login') }}" class="nav-link btn btn-light">Login</a>
+                    </li>
+                    {% endif %}
+                </div>
+            </ul>
+        </div>
+    </nav>
     <main>
         <div class="container-fluid">
             {% with messages = get_flashed_messages(with_categories=true) %}

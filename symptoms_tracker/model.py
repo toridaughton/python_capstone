@@ -53,7 +53,7 @@ class Entry(db.Model):
         self.user_id = user_id
 
     def __repr__(self):
-        return f'<Entry ID: {self.id} User ID: {self.id}>'
+        return f'<Entry ID: {self.id} User ID: {self.user_id}>'
 
     def get_diagnosis_id(self, id):
         """ Queries through junction table to get Diagnosis class object through Entry class object's id"""

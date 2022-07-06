@@ -6,8 +6,8 @@ from model import User, Diagnosis, Symptoms, Categories
 # inherit from FlaskForm with newly created form class 
 class RegisterForm(FlaskForm):
 
-    first_name = StringField('First Name ', validators=[DataRequired()])
-    last_name = StringField('Last Name ', validators=[DataRequired()])
+    first_name = StringField('First Name ', validators=[DataRequired(message='Input is required!')])
+    last_name = StringField('Last Name ', validators=[DataRequired(message='Input is required!')])
     dob = DateField('Birthday', format='%Y-%m-%d', validators=[DataRequired()])
     email = StringField('Email ', validators=[DataRequired(), Email(message='Must input valid email')])
     username = StringField('Username ', validators=[DataRequired()])

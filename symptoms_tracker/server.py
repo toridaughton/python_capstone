@@ -1,4 +1,5 @@
 from os import environ
+from sqlalchemy import desc
 from datetime import datetime
 from forms import RegisterForm, LoginForm, EntryForm, DiagnosisForm, DeleteEntryForm
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
@@ -72,8 +73,6 @@ def login():
         
         elif user.check_password(form.password.data) and user is not None:
 
-            print(user.check_password(form.password.data))
-
             login_user(user)
 
             next = request.args.get('next')
@@ -131,7 +130,7 @@ def past_entries():
     if current_user.is_authenticated:
         form = EntryForm()
         form.update_choices()
-        entries = Entry.query.filter_by(user_id=current_user.id).all()
+        entries = Entry.query.filter_by(user_id=current_user.id).order_by(desc(Entry.entry_date_time)).all()
         if entries: # If an entry exists:
             for entry in entries:
                 entry.entry_date_time = entry.entry_date_time.strftime('%B %d, %Y at %I:%M %p')

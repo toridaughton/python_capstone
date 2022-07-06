@@ -9,13 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,700&family=Mingzat&display=swap" rel="stylesheet">
+    <link href="https:#bf97d9.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,700&family=Mingzat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/styles.css"/>
 
     <title>{% block title %} Symptoms Tracker {{ title }} {% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
         <div class="home">
             <a href="{{ url_for('homepage') }}" class="navbar-brand"><h3>Symptoms Tracker</h3></a>
         </div>
@@ -26,21 +26,21 @@
             <ul class="navbar-nav ms-auto">
                 {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a href="{{ url_for('entry') }}" class="nav-link btn btn-light"><i class="fa-solid fa-file-medical"></i> New Entry</a>
+                        <a href="{{ url_for('entry') }}" class="nav-link btn"><i class="fa-solid fa-file-medical"></i> New Entry</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('past_entries') }}" class="nav-link btn btn-light"><i class="fa-solid fa-book-medical"></i> Past Entries</a>
+                        <a href="{{ url_for('past_entries') }}" class="nav-link btn"><i class="fa-solid fa-book-medical"></i> Past Entries</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('logout') }}" class="nav-link btn btn-light"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                        <a href="{{ url_for('logout') }}" class="nav-link btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
                     </li>
                 <div>
                     {% else%}
                     <li class="nav-item">
-                        <a href="{{ url_for('registration')}}" class="nav-link btn btn-light">Sign up</a>
+                        <a href="{{ url_for('registration')}}" class="nav-link btn">Sign up</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('login') }}" class="nav-link btn btn-light">Login</a>
+                        <a href="{{ url_for('login') }}" class="nav-link btn">Login</a>
                     </li>
                     {% endif %}
                 </div>

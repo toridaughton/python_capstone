@@ -3,40 +3,40 @@
 {% block content %}
 <div class="container reg">
     <div class="row">
-        <div class="reg-container col-7">
-            <form method="POST">
-                <div class="form-group">
-                    <div class="sign-up-title">
-                        <h3>Sign Up</h3>
-                    </div>
+        <aside class="col site-info">
+            <h2>A place to keep track of your symptoms for future reference. <br> <br> Keep them all in one place to easily share with your doctor.</h2>
+        </aside>
+    </div>
+    <div class="reg-container col-7">
+        <form method="POST">
+            <div class="form-group">
+                <div class="sign-up-title">
+                    <h3>Sign Up</h3>
+                </div>
+                <div class="reg-input">
                     {{ form.hidden_tag() }}
-                    <div class="reg-input">
-                        <div class="form-control">
-                            {{ form.first_name(placeholder='First Name', style_="width: 48.5%") }}
-                            {{ form.last_name(placeholder='Last Name', style_="width: 48.5%") }}
-                        </div>
-                        <div class="form-control">
-                            {{ form.username(placeholder='Username', style_="width: 40%") }} {{ form.dob.label(style_='background-color: white;') }} {{ form.dob(style_="width: 37%") }}<br>
-                        </div>
-                        <div class="form-control">
-                            {{ form.email(placeholder='Email', style_="width: 100%") }}
-                        </div>
-                        <div class="form-control">
-                            {{ form.password(placeholder='Password', style_="width: 100%") }}
-                        </div>
-                        <div class="form-control">
-                            {{ form.confirm_pass(placeholder='Confirm Password', style_="width: 100%")}}<br>
-                        </div>
+                    <div class="form-control">
+                        {{ form.first_name(placeholder='First Name', style_="width: 48.5%") }}
+                        {{ form.last_name(placeholder='Last Name', style_="width: 48.5%") }}
                     </div>
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        {{ form.submit(class_='btn btn-success', type_="button", style_='background-color: green; font-family: "Josefin Sans", sans-serif;') }}
+                    <div class="form-control">
+                        {{ form.username(placeholder='Username', style_="width: 40%") }} {{ form.dob.label(style_='background-color: white;') }} {{ form.dob(style_="width: 37%") }}<br>
+                    </div>
+                    <div class="form-control">
+                        {{ form.email(placeholder='Email', style_="width: 100%") }}
+                    </div>
+                    <div class="form-control">
+                        {{ form.password(placeholder='Password', style_="width: 100%") }}
+                    </div>
+                    <div class="form-control">
+                        {{ form.confirm_pass(placeholder='Confirm Password', style_="width: 100%")}}<br>
                     </div>
                 </div>
-            </form>
-        </div>
-        <aside class="col site-info">
-            <h3>A place to keep track of your symptoms for future reference. <br> <br> Keep them all in one place to easily share with your doctor.</h3>
-        </aside>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    {{ form.submit(class_='btn btn-success btn-block') }}
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 

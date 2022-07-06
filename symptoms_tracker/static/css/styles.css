@@ -9,12 +9,14 @@ nav {
 
 .navbar {
     font-family: 'Josefin Sans', sans-serif;
-    background-color: #DFC2F2;
+    background-color: #d1b6e2;
 }
 
 body {
-    background-image: url('/static/images/calm.jpg');
-    padding-top: 8%;
+    background-image: url('/static/images/desk-surface.jpg');
+    background-repeat:repeat-y;
+    background-size: cover;
+    padding-top: 6.5%;
 }
 
 .home {
@@ -26,17 +28,17 @@ body {
     align-items: center;
     justify-items: right;
     text-align: center;
-    margin-top: 10rem;
+    margin-top: 15rem;
 }
 
 .home-bubble-text {
     font-family: 'Josefin Sans', sans-serif;
 }
-
+/* 
 .home-photo {
     margin-left: 4rem;
     padding-left: 2rem;
-}
+} */
 
 img {
     border-radius: 15%;
@@ -63,8 +65,8 @@ form {
     align-items: center;
     flex-wrap: wrap;
     font-size: larger;
-    margin-top: 1rem;
-    padding: 3rem;
+    padding: 5rem;
+    margin-top: 10rem;
     border-radius: 2rem;
     background-color: white;
     height: auto;
@@ -82,8 +84,9 @@ form {
 .login {
     display: flex;
     flex-wrap: wrap;
-    justify-content: right;
-    margin: 0 4rem;
+    padding: 0%;
+    margin-top: 5rem;
+    margin-left: 5rem;
 }
 
 .no-account {
@@ -94,14 +97,14 @@ form {
 
 .login-form {
     width: 28rem;
+    padding: 2rem;
+    margin: 0 2rem;
 }
-
-
 
 .welcome-back {
     display: flex;
     justify-content:space-around;
-    margin-top: 1rem;
+    margin-top: 18rem;
     font-family: 'Josefin Sans', sans-serif;   
 }
 
@@ -129,7 +132,13 @@ a {
 .reg {
     margin-left: 5rem;
     display: flex;
-    justify-content: left;
+    justify-content: center;
+}
+
+.reg-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
 }
 
 .sign-up-title {
@@ -137,9 +146,10 @@ a {
 }
 
 .site-info {
-    font-family: 'Josefin Sans', sans-serif; 
+    /* font-family: 'Josefin Sans', sans-serif;  */
     font-size: 20rem;
     display: flex;
+    margin-top: 15rem;
     align-items: center;
     justify-items: right;
     text-align: center;
@@ -158,7 +168,13 @@ a {
     margin-top: 3rem;
 }
 
+.home-greeting {
+    display: flex;
+    text-align: center;
+}
+
 .diagnosis-bubble {
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
 }
@@ -186,7 +202,7 @@ a {
 }
 
 .entry-diagnosis-form {
-    margin: 1rem;
+    margin: 10rem;
     width: 31rem;
     padding: 2rem 5rem;
 }
@@ -195,7 +211,6 @@ a {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    justify-content: left;
     align-items: center;
     padding-top: 5rem;
     background-image: url('/static/images/multiple_page_notebook.jpg');
@@ -205,8 +220,6 @@ a {
 
 .entry-bubble {
     display: flex;
-    justify-content: center;
-    justify-items: center;
     align-items: center;
     flex-wrap: wrap;
     flex-direction: column;
@@ -241,6 +254,7 @@ a {
 @media only screen and (max-width: 480px) {
     body{
         max-height: 100%;
+        background-image: url('/static/images/desk-surface-for-entries.jpg');
     }
 
     img {
@@ -260,18 +274,6 @@ a {
         width: fit-content;
     }
     
-    .reg-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 3rem;
-        width: auto;
-    }
-
-    .login {
-        display: flex;
-        justify-content: center;
-        margin-top: 1.5rem;
-    }
 
     .diagnosis-bubble {
         margin-top: 3rem;

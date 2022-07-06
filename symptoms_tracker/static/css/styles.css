@@ -24,6 +24,7 @@ body {
 }
 
 .home-text {
+    /* font-family: 'Josefin Sans', sans-serif; */
     display: flex;
     align-items: center;
     justify-items: right;
@@ -66,7 +67,7 @@ form {
     flex-wrap: wrap;
     font-size: larger;
     padding: 5rem;
-    margin-top: 10rem;
+    margin-top: 5rem;
     border-radius: 2rem;
     background-color: white;
     height: auto;
@@ -85,7 +86,7 @@ form {
     display: flex;
     flex-wrap: wrap;
     padding: 0%;
-    margin-top: 5rem;
+    margin-top: 10rem;
     margin-left: 5rem;
 }
 
@@ -126,6 +127,8 @@ form {
 }
 
 a {
+    color: darkblue;
+    font-weight: bold;
     text-decoration: none;
 }
 

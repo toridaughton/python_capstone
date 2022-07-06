@@ -4,7 +4,7 @@
 }
 
 nav {
-    margin: 0, 2rem;
+    margin: 0, 4rem;
 }
 
 .navbar {
@@ -63,7 +63,7 @@ form {
     align-items: center;
     flex-wrap: wrap;
     font-size: larger;
-    margin-top: .5rem;
+    margin-top: 1rem;
     padding: 3rem;
     border-radius: 2rem;
     background-color: white;
@@ -97,13 +97,16 @@ form {
 }
 
 
+
 .welcome-back {
     display: flex;
     justify-content:space-around;
+    margin-top: 1rem;
     font-family: 'Josefin Sans', sans-serif;   
 }
 
-.red-note-taking{
+.login-photo {
+    margin-top: 1rem;
     display: flex;
     justify-content: left;
     margin-left: 5rem;

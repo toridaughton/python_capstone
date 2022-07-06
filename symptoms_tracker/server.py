@@ -66,8 +66,13 @@ def login():
 
     if form.validate_on_submit():
         user = User.query.filter_by(user_email=form.email.data).first()
+
+        if user is None or user.check_password(form.password.data) == False:
+            flash('Email &/or password are incorrect!', "danger")
         
-        if user.check_password(form.password.data) and user is not None:
+        elif user.check_password(form.password.data) and user is not None:
+
+            print(user.check_password(form.password.data))
 
             login_user(user)
 

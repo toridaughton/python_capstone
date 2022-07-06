@@ -154,7 +154,7 @@ def baseline_select_options():
 
     baseline_diagnoses = ["Cancer", "Celiac Disease", "Cohn's Disease", "Diabetes", "Diverticulitis", "Endometriosis", "Epilepsy", "Fibromyalgia", "Flu", "Irritable bowel syndrome (IBS)", "Kidney Stones", "Unknown"]
     baseline_symptoms = ["Congestion","Headache", "Lethargic", "Nausea", "Numbness", "Other", "Pain","Vertigo" ]
-    baseline_categories = ["Cardiology (heart)", "Dermatology (skin)", "Endocrinology (hormone-related)", "ENT (ears, nose, throat)", "Gastroenterology (GI / Abdomen)", "Opthamology (eyes)", "Oncology (cancer)", "Other", "Unknown", "Urology (urinary)"]
+    baseline_categories = ["Cardiology (heart)", "Dermatology (skin)", "Endocrinology (hormone-related)", "ENT (ears, nose, throat)", "Gastroenterology (GI / Abdomen)", "Hematology (blood)" "Neurology (brain/nerves)", "Opthamology (eyes)", "Oncology (cancer)", "Other", "Rheumatology" "Unknown", "Urology (urinary)"]
     
     for diagnosis in baseline_diagnoses:
         db.session.add(Diagnosis(diagnosis_name=diagnosis))

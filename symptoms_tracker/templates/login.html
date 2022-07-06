@@ -14,22 +14,25 @@
                     <form method="POST" class="login-form">
                         <div class="form-group">
                             <div class="login-header">
-                                <h2>Symptoms Tracker <br> LOGIN</h2>
+                                <h3>Symptoms Tracker <br> LOGIN</h3>
                             </div>
+                            {{ form.hidden_tag() }}
                             <div class="login-input">
-                                {{ form.hidden_tag() }}
                                 <div class="form-control">
-                                    {{ form.email.label() }}<br>{{ form.email(placeholder='email', style_="width: 15rem") }}<br>
+                                    {{ form.email.label() }}<br>{{ form.email(placeholder='email', style_="width: 17rem") }}<br>
                                 </div>
                                 <div class="form-control">
-                                    {{ form.password.label()}}<br>{{ form.password(placeholder='password', style_="width: 15rem")}}<br>
+                                    {{ form.password.label()}}<br>{{ form.password(placeholder='password', style_="width: 17rem")}}<br>
                                 </div>
                             </div>
                             <br>
                             <div class="d-grid gap-2 col-6 mx-auto">
                                 {{ form.submit(class_="btn btn-success btn-block") }}
                             </div>
-                            <p>Don't already have an account? <a href="{{ url_for('registration') }}">Sign Up</a></p>
+                            <br>
+                            <div class="no-account">
+                                <p>Don't have an account? <a href="{{ url_for('registration') }}">Sign Up</a></p>
+                            </div>
                         </div>
                     </form>
                 </div>
